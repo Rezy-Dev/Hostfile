@@ -16,12 +16,6 @@ if [ "$#" -lt 1 ]; then
     show_help
 fi
 
-# user is running the script as sudo
-if [ "$(id -u)" -ne 0 ]; then
-    echo "Please run as root (sudo)."
-    exit 1
-fi
-
 # display help
 if [[ "$1" == "-h" || "$1" == "--h" || "$1" == "--help" ]]; then
     show_help
