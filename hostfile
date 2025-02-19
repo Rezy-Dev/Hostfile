@@ -29,7 +29,9 @@ if [ "$1" == "-R" ]; then
     fi
 
     DOMAIN_TO_REMOVE="$2"
-    sed -i "/\s$DOMAIN_TO_REMOVE$/d" "$HOSTS_FILE"
+
+    # Ensure sudo is used to modify /etc/hosts
+    sudo sed -i "/\s$DOMAIN_TO_REMOVE$/d" "$HOSTS_FILE"
     echo "Removed entry for $DOMAIN_TO_REMOVE from $HOSTS_FILE"
     exit 0
 fi
@@ -40,10 +42,11 @@ shift  # Remove IP from arguments list
 
 # remove the existing entries from provided domains
 for DOMAIN in "$@"; do
-    sed -i "/\s$DOMAIN$/d" "$HOSTS_FILE"
+    # Ensure sudo is used to modify /etc/hosts
+    sudo sed -i "/\s$DOMAIN$/d" "$HOSTS_FILE"
 done
 
 # append new entries
-echo "$IP $*" >> "$HOSTS_FILE"
+echo "$IP $*" | sudo tee -a "$HOSTS_FILE" > /dev/null
 
 echo "Updated $HOSTS_FILE with: $IP $*"
