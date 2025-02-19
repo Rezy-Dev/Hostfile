@@ -21,6 +21,6 @@ To install the Hostfile script, simply run the following one-liner:
 ```bash
 curl https://raw.githubusercontent.com/Rezy-Dev/Hostfile/refs/heads/main/install.sh | sudo bash
 ```
-This will clone the repository, move the script to /usr/bin/, and make it executable without needing sudo each time.
+This will clone the repository, move the script to `/usr/bin/`, and make it executable without needing sudo each time.
 
 > **Note:** To know what the script does, visit the [install.sh](https://github.com/Rezy-Dev/Hostfile/blob/main/install.sh) script and read it.
