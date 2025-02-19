@@ -19,7 +19,7 @@ The Hostfile script is a simple utility that allows you to:
 To install the Hostfile script, simply run the following one-liner:
 
 ```bash
-curl https://raw.githubusercontent.com/Rezy-Dev/Hostfile/refs/heads/main/install.sh | sudo bash
+curl -s https://raw.githubusercontent.com/Rezy-Dev/Hostfile/refs/heads/main/install.sh | sudo bash
 ```
 This will clone the repository, move the script to `/usr/bin/`, and make it executable without needing sudo each time.
 
