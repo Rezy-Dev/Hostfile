@@ -1,0 +1,55 @@
+#!/bin/bash
+
+HOSTS_FILE="/etc/hosts"
+
+# Usage
+show_help() {
+    echo "Usage:"
+    echo "  hostfile <IP> <DOMAIN> [ADDITIONAL_DOMAINS...]"
+    echo "  hostfile -R <DOMAIN>  (Remove entry for domain)"
+    echo "  hostfile -h | --h | --help  (Show this help message)"
+    exit 0
+}
+
+# at least one argument is provided
+if [ "$#" -lt 1 ]; then
+    show_help
+fi
+
+# user is running the script as sudo
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Please run as root (sudo)."
+    exit 1
+fi
+
+# display help
+if [[ "$1" == "-h" || "$1" == "--h" || "$1" == "--help" ]]; then
+    show_help
+fi
+
+# removal mode
+if [ "$1" == "-R" ]; then
+    if [ -z "$2" ]; then
+        echo "Usage: hostfile -R <DOMAIN>"
+        exit 1
+    fi
+
+    DOMAIN_TO_REMOVE="$2"
+    sed -i "/\s$DOMAIN_TO_REMOVE$/d" "$HOSTS_FILE"
+    echo "Removed entry for $DOMAIN_TO_REMOVE from $HOSTS_FILE"
+    exit 0
+fi
+
+# addition mode
+IP="$1"
+shift  # Remove IP from arguments list
+
+# remove the existing entries from provided domains
+for DOMAIN in "$@"; do
+    sed -i "/\s$DOMAIN$/d" "$HOSTS_FILE"
+done
+
+# append new entries
+echo "$IP $*" >> "$HOSTS_FILE"
+
+echo "Updated $HOSTS_FILE with: $IP $*"
